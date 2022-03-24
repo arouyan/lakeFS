@@ -7,13 +7,14 @@ import (
 	"path"
 	"testing"
 
+	"gopkg.in/yaml.v3"
+
 	"github.com/go-test/deep"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 	"github.com/treeverse/lakefs/pkg/actions"
 	"github.com/treeverse/lakefs/pkg/actions/mock"
 	"github.com/treeverse/lakefs/pkg/graveler"
-	"gopkg.in/yaml.v3"
 )
 
 func TestAction_ReadAction(t *testing.T) {
@@ -168,6 +169,69 @@ func TestAction_Match(t *testing.T) {
 			spec:    actions.MatchSpec{EventType: graveler.EventTypePreCommit, BranchID: "main"},
 			want:    false,
 			wantErr: true,
+		},
+		{
+			name:    "pre create tag - on pre-create tag without branch",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePreCreateTag: {}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePreCreateTag},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "pre create tag main - on pre-create main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePreCreateTag: {}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePreCreateTag, BranchID: "main"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "post create tag main - on post-create main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePostCreateTag: {}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePostCreateTag, BranchID: "main"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "pre delete tag main - on pre-delete main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePreDeleteTag: {}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePreDeleteTag, BranchID: "main"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "post delete tag main - on post-delete main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePostDeleteTag: {}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePostDeleteTag, BranchID: "main"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "pre create branch main - on pre-create main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePreCreateBranch: {Branches: []string{"main"}}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePreCreateBranch, BranchID: "main"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "post create branch main - on post-create main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePostCreateBranch: {Branches: []string{"main"}}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePostCreateBranch, BranchID: "main"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "pre delete branch main - on pre-delete main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePreDeleteBranch: {Branches: []string{"main"}}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePreDeleteBranch, BranchID: "main"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "post delete branch main - on post-delete main",
+			on:      map[graveler.EventType]*actions.ActionOn{graveler.EventTypePostDeleteBranch: {Branches: []string{"main"}}},
+			spec:    actions.MatchSpec{EventType: graveler.EventTypePostDeleteBranch, BranchID: "main"},
+			want:    true,
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
