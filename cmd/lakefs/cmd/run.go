@@ -183,6 +183,7 @@ var runCmd = &cobra.Command{
 			interval := cfg.GetSecurityAuditCheckInterval() + jitter
 			auditChecker.StartPeriodicCheck(ctx, interval, logger)
 		}
+		// Wiring required for sending emails once it's decided where exactly it will be call from
 
 		allowForeign, err := cmd.Flags().GetBool(mismatchedReposFlagName)
 		if err != nil {
