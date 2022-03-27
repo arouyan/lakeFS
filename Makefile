@@ -103,6 +103,7 @@ go-install: go-mod-download ## Install dependencies
 	$(GOCMD) install github.com/golang/mock/mockgen
 	$(GOCMD) install github.com/golangci/golangci-lint/cmd/golangci-lint
 	$(GOCMD) install google.golang.org/protobuf/cmd/protoc-gen-go
+	$(GOCMD) install gopkg.in/gomail.v2
 
 
 client-python: api/swagger.yml  ## Generate SDK for Python client
