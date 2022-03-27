@@ -105,7 +105,7 @@ This reference uses `.` to denote the nesting of values.
 + `email.smtp_host` (`string` :   ) - A string representing the URL of the SMTP host.
 + `email.port` (`int` :   ) - An integer representing the port of the SMTP service (465, 587, 993, 25 are some standard ports)
 + `email.username` (`string` :   ) - A string representing the username of the specific account at the SMTP. It's recommended to provide this value at runtime from a secret vault of some sort.
-+ `email.password` (`string` :   ) - A string represnting the password of the account. It's recommended to provide this value at runtime from a secret vault of some sort.
++ `email.password` (`string` :   ) - A string representing the password of the account. It's recommended to provide this value at runtime from a secret vault of some sort.
 + `email.sender` (`string` :   ) - A string represnting the email account of which is set as the sender.
 * `gateways.s3.domain_name` `(string : "s3.local.lakefs.io")` - a FQDN
   representing the S3 endpoint used by S3 clients to call this server
