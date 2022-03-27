@@ -102,7 +102,7 @@ This reference uses `.` to denote the nesting of values.
   `max_range_size_bytes`).
 + `committed.sstable.memory.cache_size_bytes` (`int` : `200_000_000`) - maximal size of
   in-memory cache used for each SSTable reader.
-+ `email.smtp_host` (`string` :   ) - A string represnting the URL of the smtp host.
++ `email.smtp_host` (`string` :   ) - A string representing the URL of the SMTP host.
 + `email.port` (`int` :   ) - A intiger represnting the port of the SMTP service (465, 587, 993, 25 are some standerd ports)
 + `email.username` (`string` :   ) - A string represnting the username of the specific account at the SMTP. It's recommended to provide this value at runtime from a secret vault of some sort.
 + `email.password` (`string` :   ) - A string represnting the password of the account. It's recommended to provide this value at runtime from a secret vault of some sort.
