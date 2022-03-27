@@ -178,7 +178,7 @@ type configuration struct {
 		AuditCheckURL      string        `mapstructure:"audit_check_url"`
 	} `mapstructure:"security"`
 	Email struct {
-		SmtpHost string `mapstructure:"smtp_host"`
+		SMTPHost string `mapstructure:"smtp_host"`
 		Port     int    `mapstructure:"port"`
 		Username string `mapstructure:"username"`
 		Password string `mapstructure:"password"`

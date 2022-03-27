@@ -1,7 +1,7 @@
 package params
 
 type Email struct {
-	SmtpHost           string
+	SMTPHost           string
 	Port               int
 	Username           string
 	Password           string

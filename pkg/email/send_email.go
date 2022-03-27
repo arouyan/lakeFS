@@ -7,7 +7,7 @@ import (
 
 func NewEmail(e params.Email, err error) (*params.Email, error) {
 	email := &params.Email{
-		SmtpHost:           e.SmtpHost,
+		SMTPHost:           e.SMTPHost,
 		Port:               e.Port,
 		Username:           e.Username,
 		Password:           e.Password,
@@ -31,7 +31,7 @@ func SendEmail(e params.Email) error {
 			msg.Attach(f)
 		}
 	}
-	d := gomail.NewDialer(e.SmtpHost, e.Port, e.Username, e.Password)
+	d := gomail.NewDialer(e.SMTPHost, e.Port, e.Username, e.Password)
 	return d.DialAndSend(msg)
 }
 

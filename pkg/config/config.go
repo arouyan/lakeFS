@@ -401,7 +401,7 @@ func (c *Config) GetStatsFlushInterval() time.Duration {
 
 func (c *Config) GetEmailParams() (params.Email, error) {
 	return params.Email{
-		SmtpHost: c.values.Email.SmtpHost,
+		SMTPHost: c.values.Email.SMTPHost,
 		Port:     c.values.Email.Port,
 		Username: c.values.Email.Username,
 		Password: c.values.Email.Password,
