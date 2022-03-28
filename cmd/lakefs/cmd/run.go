@@ -184,6 +184,7 @@ var runCmd = &cobra.Command{
 			auditChecker.StartPeriodicCheck(ctx, interval, logger)
 		}
 		// Wiring required for sending emails once it's decided where exactly it will be call from
+		// TODO (shimi9276)
 
 		allowForeign, err := cmd.Flags().GetBool(mismatchedReposFlagName)
 		if err != nil {

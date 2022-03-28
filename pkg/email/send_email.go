@@ -2,7 +2,7 @@ package email
 
 import (
 	"github.com/treeverse/lakefs/pkg/email/params"
-	gomail "gopkg.in/gomail.v2"
+	"gopkg.in/gomail.v2"
 )
 
 func NewEmail(e params.Email, err error) (*params.Email, error) {
