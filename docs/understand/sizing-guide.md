@@ -17,37 +17,36 @@ redirect_from:
 ## System Requirements
 
 ### Operating Systems and ISA
-lakeFS can run on MacOS and Linux (Windows binaries are available but not rigorously tested - 
+lakeFS can run on macOS and Linux (Windows binaries are available but not rigorously tested - 
 we don't recommend deploying lakeFS to production on Windows).
-x86_64 and arm64 architectures are supported for both MacOS and Linux.
+x86_64 and arm64 architectures are supported for both macOS and Linux.
 
 ### Memory and CPU requirements
-lakeFS servers require a minimum of 512mb of RAM and 1 CPU core. 
-For high throughput, additional CPUs help scale requests across different cores. 
+lakeFS servers require a minimum of 512Mb of RAM and 1 CPU core. 
+For high throughput, additional CPUs help to scale requests across different cores. 
 "Expensive" operations such as large diff or commit operations can take advantage of multiple cores. 
 
 ### Network
-If using the data APIs such as the [S3 Gateway](architecture.md#s3-gateway), 
+If using data APIs such as the [S3 Gateway](architecture.md#s3-gateway), 
 lakeFS will require enough network bandwidth to support the planned concurrent network upload/download operations.
-For most cloud providers, more powerful machines (i.e. more expensive and usually with more CPU cores) also provide increased network bandwidth.
+For most cloud providers, more powerful machines (i.e., more expensive and usually with more CPU cores) also provide increased network bandwidth.
 
-If using only the metadata APIs (for example, only using the Hadoop/Spark clients), network bandwidth is minimal, 
+If using only the metadata APIs (for example, only using the Hadoop/Spark clients), network bandwidth is minimal 
 at roughly 1Kb per request.
 
 ### Disk
 lakeFS greatly benefits from fast local disks. 
 A lakeFS instance doesn't require any strong durability guarantees from the underlying storage, 
-as the disk is only ever used as a local caching layer for lakeFS metadata, and not for long-term storage.
+as the disk is only ever used as a local caching layer for lakeFS metadata and not for long-term storage.
 lakeFS is designed to work with [ephemeral disks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html){: target="_blank" } - 
 these are usually based on NVMe and are tied to the machine's lifecycle. 
-Using ephemeral disks lakeFS can provide a very high throughput/cost ratio, 
-probably the best that could be achieved on a public cloud, so we recommend those.
+Using ephemeral disks, lakeFS can provide a very high throughput/cost ratio, 
+probably the best that can be achieved in the public cloud, so we recommend them.
 
 A local cache of at least 512 MiB should be provided. 
 For large installations (managing >100 concurrently active branches, with >100M objects per commit),
-we recommend allocating at least 10 GiB - since it's a caching layer over a relatively slow storage (the object store), 
-see [Important metrics](#important-metrics) below to understand how to size this: it should be big enough to hold all commit metadata for actively referenced commits.
-
+we recommend allocating at least 10 GiB since it's a caching layer over relatively slow storage (the object store), 
+see [Important metrics](#important-metrics) below to understand how to size it. It should be big enough to hold all commit metadata for actively referenced commits.
 
 ### PostgreSQL database
 
@@ -57,65 +56,63 @@ and to keep track of currently uncommitted data across branches.
 #### Storage
 The dataset stored in PostgreSQL is relatively modest, 
 as most metadata is pushed down into the object store. 
-Required storage is mostly a factor of the amount of uncommitted writes across all branches at any given point in time: 
+The required storage is mostly a factor of the amount of uncommitted writes across all branches at any given point in time: 
 in the range of 150 MiB per every 100,000 uncommitted writes. 
 
-We recommend starting at 10 GiB for a production deployment, as it will likely be more than enough.
+We recommend starting at 10 GiB for a production deployment, as it's likely to be more than enough.
 
 #### RAM and `shared_buffers`
 Since the data size is small, it is recommended to provide enough memory to hold the vast majority of that data in RAM:
-Ideally configure [shared_buffers](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-SHARED-BUFFERS){: target="_blank" } 
+Ideally, configure [shared_buffers](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-SHARED-BUFFERS){: target="_blank" } 
 of your PostgreSQL instances to be large enough to contain the currently active dataset. 
-Pick a database instance with enough RAM to accommodate this buffer size, at roughly x4 the size given for `shared_buffers` 
-(so for example, if an installation has ~500,000 uncommitted writes at any given time, it would require about 750 MiB of `shared_buffers`, 
-that would require about 3 GiB of RAM). 
+Pick a database instance with enough RAM to accommodate this buffer size, at roughly x4 the size given for `shared_buffers`. For example, if an installation has ~500,000 uncommitted writes at any given time, it would require about 750 MiB of `shared_buffers`, 
+that would, in turn, require about 3 GiB of RAM. 
 
-Cloud providers will save you the need to tune this parameter. It will be set to a fixed percentage the chosen instance's available RAM (25% on AWS RDS, 30% on Google Cloud SQL).
+Cloud service providers will save you the need to tune this parameter. It will be set to a fixed percentage of the chosen instance's available RAM (25% on AWS RDS, 30% on Google Cloud SQL).
 
 #### CPU
 
-PostgreSQL CPU cores help scale concurrent requests. 1 CPU core for every 5,000 requests/second is ideal.
-
+PostgreSQL CPU cores help to scale concurrent requests, and 1 CPU core for every 5,000 requests/second is ideal.
 
 ## Scaling factors
 
 Scaling lakeFS, like most data systems, moves across 2 axes: 
-throughput of requests (amount per given timeframe), and latency (time to complete a single request).
+throughput of requests (amount per given timeframe) and latency (time to complete a single request).
 
 ### Understanding latency and throughput considerations
 
 Most lakeFS operations are designed to be very low in latency. 
-Assuming a well tuned local disk cache (see [Storage](#storage) above), 
+Assuming a well-tuned local disk cache (see [Storage](#storage) above), 
 most critical path operations 
 (writing objects, requesting objects, deleting objects) are designed to complete in **<25ms at p90**. 
-Listing objects obviously requires accessing more data, but should always be on-par with what the underlying object store can provide, 
-and in most cases, it is actually faster. 
-At the worst case for directory listing with 1,000 common prefixes returned, expect a latency of **75ms at p90**.
+Listing objects naturally requires accessing more data, but it should always be on par with what the underlying object store can provide, 
+and in most cases, it's actually faster. 
+In the worst-case scenario for a directory listing with 1,000 common prefixes returned, expect a latency of **75ms at p90**.
 
-Managing branches (creating them, listing them and deleting them) are all constant-time operations, generally taking **<30ms at p90**.
+Managing branches (creating, listing, and deleting them) are all constant-time operations, generally taking **<30ms at p90**.
 
-Committing and merging can take longer, as they are proportional to the amount of **changes** introduced. 
-This is what makes lakeFS optimal for large Data Lakes - 
+Committing and merging can take longer, as these activities are proportional to the amount of **changes** introduced. 
+This is what makes lakeFS optimal for large data lakes - 
 the amount of changes introduced per commit usually stays relatively stable, 
 while the entire data set usually grows over time. 
 This means lakeFS will provide predictable performance: 
-committing 100 changes will take roughly the same amount of time whether the resulting commit contains 500 or 500 million objects.
+committing 100 changes will take roughly the same amount of time, no matter if the resulting commit contains 500 or 500 million objects.
 
 See [Data Model](versioning-internals.md) for more information.
 
 Scaling throughput depends very much on the amount of CPU cores available to lakeFS. 
-In many cases it is easier to scale lakeFS across a fleet of smaller cloud instances (or containers) 
-than it is to scale up with machines that have many cores, and in fact, lakeFS works well in both cases. 
+In many cases, it's easier to scale lakeFS across a fleet of smaller cloud instances (or containers) 
+than to scale up with machines that have many cores. In fact, lakeFS works well in both cases. 
 Most critical path operations scale very well across machines. 
 
 ## Benchmarks
 
 All benchmarks below were measured using 2 x [c5ad.4xlarge](https://aws.amazon.com/ec2/instance-types/c5/){: target="_blank" } instances 
 on [AWS us-east-1](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions). 
-Similar results can be achieved on Google Cloud using a `c2-standard-16` machine type, with an attached [local SSD](https://cloud.google.com/compute/docs/disks/local-ssd).
+Similar results can be achieved on Google Cloud using the `c2-standard-16` machine type, with an attached [local SSD](https://cloud.google.com/compute/docs/disks/local-ssd).
 On Azure, a `Standard_F16s_v2` virtual machine can be used.
 
-The PostgreSQL instance that was used is a [db.m6g.2xlarge](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html){: target="_blank" }
+The PostgreSQL instance used was a [db.m6g.2xlarge](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html){: target="_blank" }
 (8 vCPUs, 32 GB RAM). Equivalent machines on Google Cloud or Azure should yield similar results.
 
 The example repository we tested against contains the metadata of a large lakeFS installation, 
@@ -126,9 +123,8 @@ so do use it to properly size and tune your setup. All tests are accompanied by 
 
 ### Random reads
 
-This test generates random read requests to lakeFS, 
+This test generates random read requests to lakeFS 
 in a given commit. Paths are requested randomly from a file containing a set of preconfigured (and existing) paths.
-
 
 **command executed:** 
 
@@ -139,7 +135,6 @@ lakectl abuse random-read \
     --parallelism 128 \
     lakefs://example-repo/<commit hash>
 ```
-
 **Note** lakeFS version <= v0.33.1 uses '@' (instead of '/') as separator between repository and commit hash.
 
 **Result Histogram (raw):**
@@ -171,12 +166,12 @@ So 50% of all requests took <10ms, while 99.9% of them took <50ms
 
 **throughput:**
 
-Average throughput during the experiment was **10851.69 requests/second**
+The average throughput during the experiment was **10851.69 requests/second**
 
 ### Random Writes
 
 This test generates random write requests to a given lakeFS branch. 
-All paths are pre-generated and do not overwrite each other (as overwrites are relatively rare in a Data Lake setup).
+All the paths are pre-generated and don't overwrite each other (as overwrites are relatively rare in a data lake setup).
 
 **command executed:** 
 
@@ -219,11 +214,11 @@ So 50% of all requests took <10ms, while 99.9% of them took <25ms
 
 **throughput:**
 
-Average throughput during the experiment was **7595.46 requests/second**
+The average throughput during the experiment was **7595.46 requests/second**
 
 ### Branch creation
 
-This test creates branches from a given reference 
+This test creates branches from a given reference. 
 
 **command executed:** 
 
@@ -262,12 +257,11 @@ max	304
 total	500000
 ```
 
-So 50% of all requests took <15ms, while 99.9% of them took <100ms
+So, 50% of all requests took <15ms, while 99.9% of them took <100ms.
 
 **throughput:**
 
-Average throughput during the experiment was **7069.03 requests/second**
-
+The average throughput during the experiment was **7069.03 requests/second**
 
 ## Important metrics
 
@@ -276,40 +270,39 @@ Every lakeFS instance exposes a `/metrics` endpoint that could be used to extrac
 
 Here are a few notable metrics to keep track of when sizing lakeFS:
 
-`api_requests_total` - Tracks throughput of API requests over time
+`api_requests_total` - Tracks throughput of API requests over time,
 
-`api_request_duration_seconds` - Histogram of latency per operation type
+`api_request_duration_seconds` - Histogram of latency per operation type,
 
-`gateway_request_duration_seconds` - Histogram of latency per [S3 Gateway](architecture.md#s3-gateway) operation
+`gateway_request_duration_seconds` - Histogram of latency per [S3 Gateway](architecture.md#s3-gateway) operation,
 
 `go_sql_stats_*` - Important client-side metrics collected from the PostgreSQL driver. 
 See [The full reference here](https://github.com/dlmiddlecote/sqlstats#exposed-metrics){: target="_blank" }.
 
 ## Reference architectures
 
-Below are a few example architectures for lakeFS deployment 
+Below are a few example architectures for lakeFS deployment. 
 
 ### Reference Architecture: Data Science/Research environment
 
-**Use case:** Manage Machine learning or algorithms development. 
-Use lakeFS branches to achieve both isolation and reproducibility of experiments. 
-Data being managed by lakeFS is both structured, tabular data; 
+**Use case:** Manage machine learning or algorithms development. 
+Use lakeFS branches to achieve both isolation and reproducibility of your experiments. 
+Data managed by lakeFS is both structured, tabular data, 
 as well as unstructured sensor and image data used for training. 
-Assuming a team of 20-50 researchers, with a dataset size of 500 TiB across 20M objects.
+We assume a team of 20-50 researchers with a dataset size of 500 TiB across 20M objects.
 
 **Environment:** lakeFS will be deployed on [Kubernetes](../deploy/k8s.md) 
 managed by [AWS EKS](https://aws.amazon.com/eks/){: target="_blank" } 
 with PostgreSQL on [AWS RDS Aurora](https://aws.amazon.com/rds/aurora/postgresql-features/){: target="_blank" }
 
-**Sizing:** Since most of the work is done by humans (vs automated pipelines), most experiments tend to be small in scale, 
+**Sizing:** Since most of the work is done by humans (vs. automated pipelines), most experiments tend to be small in scale, 
 reading and writing 10s to 1000s of objects. 
-The expected amount of branches active in parallel is relatively low, around 1-2 per user, 
-each representing a small amount of uncommitted changes at any given point in time. 
+The expected amount of branches active in parallel is relatively low: around 1-2 per user. Each represents a small amount of uncommitted changes at any given point in time. 
 Let's assume 5,000 uncommitted writes per branch = ~500k. 
 
 To support the expected throughput, a single moderate lakeFS instance should be more than enough, 
 since requests per second would be on the order of 10s to 100s. 
-For high availability, we'll deploy 2 pods with 1 CPU core and 1 GiB of RAM each..
+For high availability, we'll deploy 2 pods with 1 CPU core and 1 GiB of RAM each.
 
 Since the PostgreSQL instance is expected to hold a very small dataset 
 (at 500k, expected dataset size is `150MiB (for 100k records) * 5 = 750MiB`). 
@@ -318,20 +311,19 @@ An equivalent database instance on GCP or Azure should give similar results.
 
 <img src="{{ site.baseurl }}/assets/img/reference_arch1.png" alt="ML and Research lakeFS reference architecture"/>
 
-
 ### Reference Architecture: Automated Production Pipelines
 
 **Use case:** Manage multiple concurrent data pipelines using Apache Spark and Airflow. 
 Airflow DAGs start by creating a branch for isolation and for CI/CD. 
-Data being managed by lakeFS is structured, tabular data. Total dataset size is 10 PiB,  spanning across 500M objects. 
-Expected throughput is 10k reads/second + 2k writes per second across 100 concurrent branches.
+Data managed by lakeFS is structured, tabular data. The total dataset size is 10 PiB, spanning across 500M objects. 
+The expected throughput is 10k reads/second + 2k writes per second across 100 concurrent branches.
 
 **Environment:** lakeFS will be deployed on [Kubernetes](../deploy/k8s.md) 
 managed by [AWS EKS](https://aws.amazon.com/eks/){: target="_blank" } 
 with PostgreSQL on [AWS RDS](https://aws.amazon.com/rds/aurora/postgresql-features/){: target="_blank" }
 
 **Sizing:** Data pipelines tend to be bursty in nature: 
-reading in a lot of objects concurrently, doing some calculation or aggregation and then writing many objects concurrently. 
+reading in a lot of objects concurrently, doing some calculation or aggregation, and then writing many objects concurrently. 
 The expected amount of branches active in parallel is high, 
 with many Airflow DAGs running per day, each representing a moderate amount of uncommitted changes at any given point in time. 
 Let's assume 1,000 uncommitted writes/branch * 2500 branches = ~2.5M records. 
