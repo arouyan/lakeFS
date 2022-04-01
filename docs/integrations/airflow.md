@@ -10,16 +10,16 @@ redirect_from: ../using/airflow.html
 
 # Using lakeFS with Airflow
 
-[Apache Airflow](https://airflow.apache.org/) is a platform to programmatically author, schedule and monitor workflows.
+[Apache Airflow](https://airflow.apache.org/) is a platform that allows users to programmatically author, schedule, and monitor workflows.
 
-There are several steps needed to run Airflow with lakeFS.
+You need to take  several steps to run Airflow with lakeFS.
 
 ## Create a lakeFS connection on Airflow
 
 To access the lakeFS server and authenticate with it, create a new [Airflow
 Connection](https://airflow.apache.org/docs/apache-airflow/stable/howto/connection.html)
-of type HTTP and add it to your DAG.  You can do that using the Airflow UI
-or the CLI.  Here’s an example Airflow command that does just that:
+of type HTTP and add it to your DAG. You can do that using the Airflow UI
+or the CLI. Here’s an example Airflow command that does just that:
 
 ```bash
 airflow connections add conn_lakefs --conn-type=HTTP --conn-host=http://<LAKEFS_ENDPOINT> \
@@ -75,7 +75,7 @@ The package exposes several operations to interact with a lakeFS server:
 
 ### Sensors
 
-Sensors are also available that allow synchronizing a running DAG with external operations:
+Sensors are also available, they allow synchronizing a running DAG with external operations:
 
 1. `CommitSensor` waits until a commit has been applied to the branch
    
@@ -104,7 +104,7 @@ in the airflow-provider-lakeFS repository shows how to use all of these.
 
 ### Performing other operations
 
-Sometimes an operator might not yet be supported by airflow-provider-lakeFS. You can directly access lakeFS by using:
+Sometimes an operator might not be supported by airflow-provider-lakeFS yet. You can access lakeFS directly by using:
 
 - SimpleHttpOperator to send [API requests](../reference/api.md) to lakeFS. 
 - BashOperator with [lakeCTL](../quickstart/first_commit.md) commands.
