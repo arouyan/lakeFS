@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Airbyte
-description: Use Airbyte with lakeFS to easily sync data between applications and S3 with lakeFS version control.
+description: How to use Airbyte with lakeFS to easily sync data between applications and S3 with lakeFS version control.
 parent: Integrations
 nav_order: 57
 has_children: false
 ---
 
-[Airbyte](https://airbyte.io//) is an open-source platform to sync data from applications, APIs & databases to
-warehouses, lakes and other destinations.  Use Airbyte's connectors to get your data pipelines to consolidate
+[Airbyte](https://airbyte.io//) is an open-source platform for syncing data from applications, APIs, and databases to
+data warehouses, lakes, and other destinations. You can use Airbyte's connectors to get your data pipelines to consolidate
 many input sources.
 
 ## Table of contents
@@ -18,11 +18,11 @@ many input sources.
 {:toc .pb-5 }
 
 ## Using lakeFS with Airbyte
-The integration between the two open-source projects brings resilience and manageability when using Airbyte
+The integration between the two open-source projects brings resilience and manageability when you use Airbyte
 connectors to sync data to your S3 buckets by leveraging lakeFS branches and atomic commits and merges.
 
 ## Use-cases
-You can leverage lakeFS consistency guarantees and [CI/CD capabilities](../usecases/ci.md) when ingesting data to S3 using lakeFS:
+You can take advantage of the lakeFS consistency guarantees and [CI/CD capabilities](../usecases/ci.md) when ingesting data to S3 using lakeFS:
 
 1. Consolidate many data sources to a single branch and expose them to the consumers simultaneously when merging to the `main` branch.
 1. Test incoming data for breaking schema changes, using [lakeFS hooks](../setup/hooks.md).
