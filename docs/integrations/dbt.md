@@ -1,7 +1,7 @@
 ---
 layout: default
 title: DBT
-description: Maintaining environments with DBT and lakeFS.
+description: Guide to maintaining environments with DBT and lakeFS.
 parent: Integrations
 nav_order: 64
 has_children: false
@@ -12,9 +12,9 @@ redirect_from: ../using/dbt.html
 {: .no_toc }
 
 DBT could run on lakeFS with the Spark adapter or the Presto/Trino adapter. 
-Both Spark and Presto use Hive metastore or Glue in order to manage tables and views.
-When creating a branch in lakeFS we receive a logical copy of the data that could be accessed by `s3://my-repo/branch/...` 
-In order to run our DBT project on a new created branch we need to have a copy of the metadata as well.
+Both Spark and Presto use the Hive metastore or Glue in order to manage tables and views.
+When creating a branch in lakeFS, you receive a logical copy of the data that could be accessed by `s3://my-repo/branch/...` 
+To run your DBT project on a new created branch, you need to have a copy of the metadata as well.
 
 The lakectl dbt command generates all the metadata needed in order to work on the new created branch,
 continuing from the last state in the source branch.
@@ -24,8 +24,8 @@ The dbt lakectl command does this using dbt commands and lakectl metastore comma
 
 ## Configuration 
 
-In order to run the lakectl-dbt commands we need to configure both dbt and lakectl. 
-Assuming dbt is already configured using either a Spark or Presto/Trino target 
+To run the lakectl-dbt commands, you need to configure both dbt and lakectl. 
+Assuming that the dbt is already configured using either a Spark or Presto/Trino target, 
 you will need to add configurations to give access to your catalog (metastore).
 This is done by adding the following configurations to the lakectl configuration file (by default `~/.lakectl.yaml`)
 
@@ -55,12 +55,12 @@ metastore:
 ## Views
 
 lakectl copies all models materialized as tables and incremental directly on your metastore.
-copying views should be done manually or with lakectl
+copying views should be done manually or with lakectl.
 
 ### Using lakectl
 
 The `generate_schema_name` macro could be used by lakectl to create models using dbt on a dynamic schema.
-The following command will add a macro to your project allowing lakectl to run dbt on the destination schema using an environment variable
+The following command will add a macro to your project allowing lakectl to run dbt on the destination schema using an environment variable:
 
 ```bash
 lakectl dbt generate-schema-macro
@@ -81,8 +81,8 @@ dbt run --select config.materialized:view
 
 ## Create Schema
 
-Creating the schema 
-From your dbt project run:
+Creating the schema from your dbt project run:
+
 ```bash
 lakectl dbt create-branch-schema --branch my-branch --to-schema my_branch   
 ```
