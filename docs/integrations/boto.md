@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Boto (Python)
-description: This section covers how you can start using lakeFS with Boto (Python), the AWS SDK for Python.
+description: This section show how you can start using lakeFS with Boto (Python), the AWS SDK for Python.
 parent: Integrations
 nav_order: 45
 has_children: false
@@ -11,7 +11,7 @@ redirect_from: ../using/boto.html
 # Using lakeFS with Boto (Python)
 {: .no_toc }
 
-To use Boto with lakeFS alongside S3, check out [Boto S3 Router](https://github.com/treeverse/boto-s3-router){:target="_blank"}. It will route
+To use Boto with lakeFS alongside S3, check out the [Boto S3 Router](https://github.com/treeverse/boto-s3-router){:target="_blank"}. It will route
 requests to either S3 or lakeFS according to the provided bucket name.
 {: .note }
 
@@ -34,6 +34,7 @@ The client is now configured to operate on your lakeFS installation.
 ## Usage Examples
 
 ### Put Object
+
 Use a branch name and a path to put an object in lakeFS:
 
 ```python
@@ -53,7 +54,7 @@ for obj in list_resp['Contents']:
     print(obj['Key'])
 ```
 
-Or, use a lakeFS commit ID to list objects for a specific commit:
+Or use a lakeFS commit ID to list objects for a specific commit:
  
 ```python
 list_resp = s3.list_objects_v2(Bucket='example-repo', Prefix='c7a632d74f/example-prefix')
@@ -62,6 +63,7 @@ for obj in list_resp['Contents']:
 ```
 
 ### Head Object
+
 Get object metadata using branch and path:
 ```python
 s3.head_object(Bucket='example-repo', Key='main/example-file.parquet')
