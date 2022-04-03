@@ -49,10 +49,10 @@ This reference uses `.` to denote the nesting of values.
 * `auth.ldap.bind_dn` `(string : required)` - Use this DN to bind lakeFS on the LDAP server for searching for users.
 * `auth.ldap.bind_password` `(string : )` - If set, use this password for binding `bind_dn`.
 * `auth.ldap.username_attribute` `(string : required)` - Attribute holding login username on LDAP users, e.g. `cn` or `uid`.
-* `auth.ldap.user_base_dn` `(string : required)` - Base DN for searching for users.  Search looks for users in the subtree below this.
-* `auth.ldap.default_user_group` `(string : )` - Create all LDAP users in this group.  Defaults to `Viewers`.
+* `auth.ldap.user_base_dn` `(string : required)` - Base DN for searching for users. Search looks for users in the subtree below this.
+* `auth.ldap.default_user_group` `(string : )` - Create all LDAP users in this group. Defaults to `Viewers`.
 * `auth.ldap.user_filter` `(string : )` - Additional filter for users.
-* `blockstore.type` `(one of ["local", "s3", "gs", "azure", "mem"] : required)`.  Block adapter to use. This controls where the underlying data will be stored
+* `blockstore.type` `(one of ["local", "s3", "gs", "azure", "mem"] : required)`. Block adapter to use. This controls where the underlying data will be stored
 * `blockstore.default_namespace_prefix` `(string : )` - Use this to help your users choose a storage namespace for their repositories. 
    If specified, the storage namespace will be filled with this default value as a prefix, when creating a repository from the UI.
    The user may still change it to something else.
@@ -75,28 +75,28 @@ This reference uses `.` to denote the nesting of values.
 * `blockstore.s3.discover_bucket_region` `(boolean : true)` - (Can be turned off if the underlying S3 bucket doesn't support the GetBucketRegion API).
 * `committed.local_cache` - an object describing the local (on-disk) cache of metadata from
   permanent storage:
-  + `committed.local_cache.size_bytes` (`int` : `1073741824`) - bytes for local cache to use on disk.  The cache may use more storage for short periods of time.
+  + `committed.local_cache.size_bytes` (`int` : `1073741824`) - bytes for local cache to use on disk. The cache may use more storage for short periods of time.
   + `committed.local_cache.dir` (`string`, `~/lakefs/local_tier`) - directory to store local cache.
   +	`committed.local_cache.range_proportion` (`float` : `0.9`) - proportion of local cache to
 	use for storing ranges (leaves of committed metadata storage).
   + `committed.local_cache.range.open_readers` (`int` : `500`) - maximal number of unused open
     SSTable readers to keep for ranges.
   + `committed.local_cache.range.num_shards` (`int` : `30`) - sharding factor for open SSTable
-    readers for ranges.  Should be at least `sqrt(committed.local_cache.range.open_readers)`.
+    readers for ranges. Should be at least `sqrt(committed.local_cache.range.open_readers)`.
   + `committed.local_cache.metarange_proportion` (`float` : `0.1`) - proportion of local cache
 	to use for storing metaranges (roots of committed metadata storage).
   + `committed.local_cache.metarange.open_readers` (`int` : `50`) - maximal number of unused open
     SSTable readers to keep for metaranges.
   + `committed.local_cache.metarange.num_shards` (`int` : `10`) - sharding factor for open
-    SSTable readers for metaranges.  Should be at least
+    SSTable readers for metaranges. Should be at least
     `sqrt(committed.local_cache.metarange.open_readers)`.
 + `committed.block_storage_prefix` (`string` : `_lakefs`) - Prefix for metadata file storage
   in each repository's storage namespace
 + `committed.permanent.min_range_size_bytes` (`int` : `0`) - Smallest allowable range in
-  metadata.  Increase to somewhat reduce random access time on committed metadata, at the cost
+  metadata. Increase to somewhat reduce random access time on committed metadata, at the cost
   of increased committed metadata storage cost.
 + `committed.permanent.max_range_size_bytes` (`int` : `20971520`) - Largest allowable range in
-  metadata.  Should be close to the size at which fetching from remote storage becomes linear.
+  metadata. Should be close to the size at which fetching from remote storage becomes linear.
 + `committed.permanent.range_raggedness_entries` (`int` : `50_000`) - Average number of object
   pointers to store in each range (subject to `min_range_size_bytes` and
   `max_range_size_bytes`).
@@ -119,7 +119,7 @@ This reference uses `.` to denote the nesting of values.
 
 ## Using Environment Variables
 
-All configuration variables can be set or overridden using environment variables.
+All of the configuration variables can be set or overridden using environment variables.
 To set an environment variable, prepend `LAKEFS_` to its name, convert it to upper case, and replace `.` with `_`:
 
 For example, `logging.format` becomes `LAKEFS_LOGGING_FORMAT`, `blockstore.s3.region` becomes `LAKEFS_BLOCKSTORE_S3_REGION`, etc.
