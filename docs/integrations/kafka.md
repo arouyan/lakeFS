@@ -5,13 +5,13 @@ description: This section covers how you can start using lakeFS with Kafka using
 parent: Integrations
 nav_order: 70
 has_children: false
-redirect_from: ../using/kakfa.html
+redirect_from: ../using/kafka.html
 ---
 
 # Using lakeFS with Kafka
 
 {: .no_toc }
-[Apache Kafka](https://kafka.apache.org/) provides a unified, high-throughput, low-latency platform for handling real-time data feeds.
+[Apache Kafka](https://kafka.apache.org/) provides a unified, high-throughput, and low-latency platform for handling real-time data feeds.
 
 Different distributions of Kafka have different methods for exporting data to s3, called Kafka Sink Connectors.
 
