@@ -14,7 +14,7 @@ has_children: false
 
 ## Installing the lakectl command locally
 
-`lakectl` is distributed as a single binary, with no external dependencies - and is available for MacOS, Windows and Linux.
+`lakectl` is distributed as a single binary with no external dependencies - it's available for MacOS, Windows, and Linux.
 
 [Download lakectl](../index.md#downloads){: .btn .btn-green target="_blank"}
 
@@ -39,16 +39,18 @@ will provide a link to download a preconfigured configuration file for you.
 `lakectl` configuration items can each be controlled by an environment variable. The variable name will have a prefix of
 *LAKECTL_*, followed by the name of the configuration, replacing every '.' with a '_'. Example: `LAKECTL_SERVER_ENDPOINT_URL` 
 controls `server.endpoint_url`.
+
 ### lakectl
 
 A cli tool to explore manage and work with lakeFS
 
 #### Synopsis
+
 {:.no_toc}
 
 lakeFS is data lake management solution, allowing Git-like semantics over common object stores
 
-lakectl is a CLI tool allowing exploration and manipulation of a lakeFS environment
+lakectl is a CLI tool allowing exploration and manipulation of a lakeFS environment.
 
 #### Options
 {:.no_toc}
@@ -68,6 +70,7 @@ lakectl is a CLI tool allowing exploration and manipulation of a lakeFS environm
 {: .note .note-warning }
 
 #### Example usage
+
 {:.no_toc}
 
 ```shell
@@ -78,7 +81,7 @@ $ lakectl fs ls /path
 
 ### lakectl abuse
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure that you know what you're doing.
 {: .note .note-warning }
 
 Abuse a running lakeFS instance. See sub commands for more info.
@@ -1431,7 +1434,7 @@ lakectl branch-protect list lakefs://<repository>
 
 ### lakectl cat-hook-output
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure that you know what you're doing.
 {: .note .note-warning }
 
 Cat actions hook output
@@ -1458,7 +1461,7 @@ lakectl cat-hook-output lakefs://<repository> <run_id> <run_hook_id>
 
 ### lakectl cat-sst
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure that you know what you're doing.
 {: .note .note-warning }
 
 Explore lakeFS .sst files
@@ -1849,7 +1852,7 @@ lakectl fs rm <path uri> [flags]
 
 ### lakectl fs stage
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure that you know what you're doing.
 {: .note .note-warning }
 
 Stage a reference to an existing object, to be managed in lakeFS
@@ -2368,7 +2371,7 @@ Restores refs (branches, commits, tags) from the underlying object store to a ba
 
 restores refs (branches, commits, tags) from the underlying object store to a bare repository.
 
-This command is expected to run on a bare repository (i.e. one created with 'lakectl repo create-bare').
+This command is expected to run on a bare repository (i.e., one created with 'lakectl repo create-bare').
 Since a bare repo is expected, in case of transient failure, delete the repository and recreate it as bare and retry.
 
 ```
