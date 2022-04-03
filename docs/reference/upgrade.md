@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Upgrade lakeFS
-description: Upgrading lakeFS from a previous version usually just requires re-deploying with the latest image or downloading the latest version
+description: Upgrading lakeFS from a previous version usually just requires re-deploying with the latest image or downloading the latest version.
 parent: Reference
 nav_order: 50
 has_children: false
@@ -10,7 +10,7 @@ redirect_from: ../deploying-aws/upgrade.html
 
 # Upgrading lakeFS
 {: .no_toc }
-Upgrading lakeFS from a previous version usually just requires re-deploying with the latest image (or downloading the latest version, if you're using the binary).
+Upgrading lakeFS from the previous version usually just requires re-deploying with the latest image (or downloading the latest version if you're using the binary).
 There are cases where the database will require a migration - check whether the [release](https://github.com/treeverse/lakeFS/releases) you are upgrading to requires that.
 
 
@@ -72,11 +72,11 @@ cataloger:
 We discovered a bug in the way lakeFS is storing objects in the underlying object store.
 It affects only repositories on Azure and GCP, and not all of these.
 [Issue #2397](https://github.com/treeverse/lakeFS/issues/2397#issuecomment-908397229) describes the repository storage namespaces patterns 
-which are affected by this bug.
+that are affected by this bug.
 
 When first upgrading to a version greater or equal to v0.50.0, you must follow these steps:
 1. Stop lakeFS.
-1. Perform a data-migration (details below)
+1. Perform a data-migration (details below).
 1. Start lakeFS with the new version.
 1. After a successful run of the new version, and after validating the objects are accessible, you can delete the old data prefix.
 
@@ -119,7 +119,7 @@ Note the double slash after the bucket name.
 #### Migrating Azure Blob Storage data with AzCopy
 
 [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) is a command-line utility that you can use to copy blobs or files to or from a storage account.
-We can use it for copying the data between the prefixes in the Azure storage account container, and later on removing it.
+We can use it for copying the data between the prefixes in the Azure storage account container and later on removing it.
 
 First, you need to acquire an [Account SAS](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview#account-sas).
 Using the Azure CLI:
