@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Monitoring using Prometheus
-description: Monitor your lakeFS installation with Prometheus
+description: Monitor your lakeFS installation with Prometheus - here's how it works.
 parent: Reference
 nav_order: 30
 has_children: false
@@ -46,7 +46,7 @@ In addition, lakeFS exposes the following metrics to help monitor your deploymen
 
 
 ## Example queries
-**Note:** when using Prometheus functions like [rate](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate){: target="_blank"}
+**Note:** When using Prometheus functions like [rate](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate){: target="_blank"}
 or [increase](https://prometheus.io/docs/prometheus/latest/querying/functions/#increase){: target="_blank"}, results are extrapolated and may not be exact.
 {: .note}
 
