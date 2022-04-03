@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Protected Branches
-description: Branch protection rules prevent direct changes on your important branches
+description: Branch protection rules prevent direct changes to your important branches.
 parent: Reference
 nav_order: 4
 has_children: false
@@ -33,7 +33,7 @@ This section explains how to use the lakeFS UI to manage rules. You can also use
 
 ### Reaching the branch protection rules page 
 
-1. On lakeFS, navigate to the main page of the repository.
+1. In lakeFS, navigate to the main page of the repository.
 2. Click on the _Settings_ tab.
 3. In the left menu, click _Branches_.
 
