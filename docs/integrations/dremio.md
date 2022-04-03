@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Dremio
-description: This section covers how you can start using lakeFS with Dremio, a next-generation data lake engine.
+description: This section shows how you can start using lakeFS with Dremio, a next-generation data lake engine.
 parent: Integrations
 nav_order: 90
 has_children: false
@@ -17,7 +17,7 @@ Starting from 3.2.3, Dremio supports Minio as an [experimental S3-compatible plu
 Similarly, we can connect lakeFS with Dremio.
 
 Suppose you already have both lakeFS and Dremio deployed, and want to utilize Dremio to query your data in the lakeFS repositories.
-You can follow below steps to configure on Dremio UI:
+You can follow these steps to configure on Dremio UI:
 
 1. click `Add Data Lake`.
 1. Under `File Stores`, choose `Amazon S3`.
