@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Kubeflow
-description: Easily build reproducible data pipelines with Kubeflow and lakeFS using commits, without modifying the code or logic of your job.
+description: Easily build reproducible data pipelines with Kubeflow and lakeFS using commits without modifying the code or logic of your job.
 parent: Integrations
 nav_order: 56
 has_children: false
@@ -9,7 +9,7 @@ has_children: false
 ---
 # Using lakeFS with Kubeflow pipelines
 {: .no_toc }
-[Kubeflow](https://www.kubeflow.org/docs/about/kubeflow/) is a project dedicated to making deployments of ML workflows on Kubernetes simple, portable and scalable.
+[Kubeflow](https://www.kubeflow.org/docs/about/kubeflow/) is a project dedicated to making deployments of ML workflows on Kubernetes simple, portable, and scalable.
 A Kubeflow pipeline is a portable and scalable definition of an ML workflow composed of steps. Each step in the pipeline is an instance of a component represented as an instance of [ContainerOp](https://kubeflow-pipelines.readthedocs.io/en/latest/source/kfp.dsl.html#kfp.dsl.ContainerOp).
 
 {% include toc.html %}
@@ -17,7 +17,7 @@ A Kubeflow pipeline is a portable and scalable definition of an ML workflow comp
 
 ## Add pipeline steps for lakeFS operations
 
-To integrate lakeFS onto your Kubeflow pipeline, we will need to create Kubeflow components that perform lakeFS operations.
+To integrate lakeFS onto your Kubeflow pipeline, you will need to create Kubeflow components that perform lakeFS operations.
 Currently, there are two methods to create lakeFS ContainerOps:
 1. Implement a function-based ContainerOp that uses lakeFS's Python API to invoke lakeFS operations.
 1. Implement a ContainerOp that uses the `lakectl` CLI docker image to invoke lakeFS operations.
@@ -55,7 +55,7 @@ create_branch_op = components.func_to_container_op(
    packages_to_install=['lakefs_client==<lakeFS version>']) # Type in the lakeFS version you are using
 ```
 
-You can invoke any lakeFS operation supported by lakeFS OpenAPI, for example, you could implement a commit and merge function-based ContainerOps.
+You can invoke any lakeFS operation supported by lakeFS OpenAPI. For example, you could implement a commit and merge function-based ContainerOps.
 Check out the full API [reference](https://docs.lakefs.io/reference/api.html).
 
 ### Non-function-based ContainerOps
@@ -103,7 +103,7 @@ The lakeFS Kubeflow integration that uses `lakectl` is supported on lakeFS versi
 
 ## Add the lakeFS steps to your pipeline
 
-Add the steps created on the previous step to your pipeline before compiling it.
+Add the steps created in the previous step to your pipeline before compiling it.
 
 ### Example pipeline
 {: .no_toc }
@@ -122,5 +122,5 @@ def lakectl_pipeline():
 
 
 **Note**
-It is recommended to store credentials as kubernetes secrets and pass them as [environment variables](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables ) to Kubeflow operations using [V1EnvVarSource](https://github.com/kubernetes-client/python/blob/master/kubernetes/docs/V1EnvVarSource.md).
+It is recommended to store credentials as Kubernetes secrets and pass them as [environment variables](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables ) to Kubeflow operations using [V1EnvVarSource](https://github.com/kubernetes-client/python/blob/master/kubernetes/docs/V1EnvVarSource.md).
 {: .note }
