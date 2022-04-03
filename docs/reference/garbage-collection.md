@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Garbage Collection
-description: Clean up unnecessary objects
+description: Clean up unnecessary objects - here's how to do it with lakeFS.
 parent: Reference
 nav_order: 25
 has_children: false
@@ -10,11 +10,11 @@ has_children: false
 # Garbage Collection
 {: .no_toc }
 
-By default, lakeFS keeps all your objects forever. This allows you to travel back in time to previous versions of your data.
-However, sometimes you may want to hard-delete your objects, namely delete them from the underlying storage. 
-Reasons for this include cost-reduction and privacy policies.
+By default, lakeFS keeps all your objects forever. This allows you to travel back in time to the previous versions of your data.
+However, sometimes you may want to hard-delete your objects - namely, to delete them from the underlying storage. 
+The reasons for this include cost reduction and privacy policies.
 
-Garbage collection rules in lakeFS define for how long to retain objects after they have been deleted (see more information [below](#considerations)).
+Garbage collection rules in lakeFS define for how long objects will be retained after they have been deleted (see more information [below](#considerations)).
 lakeFS provides a Spark program to hard-delete objects that have been deleted and whose retention period has ended according to the GC rules.
 The GC job does not remove any commits: you will still be able to use commits containing hard-deleted objects,
 but trying to read these objects from lakeFS will result in a `410 Gone` HTTP status.
@@ -38,7 +38,7 @@ Example GC rules for a repository:
 ```
 
 In the above example, objects are retained for 21 days after deletion by default. However, if they are present in the branch `main`, they are retained for 28 days.
-Objects present in the `dev` branch (but not in any other branch), are retained for 7 days after they are deleted.
+Objects present in the `dev` branch (but not in any other branch) are retained for 7 days after they are deleted.
 
 ## Configuring GC rules
 
@@ -86,12 +86,13 @@ spark-submit --class io.treeverse.clients.GarbageCollector \
   example-repo us-east-1
 ```
 ## Considerations
+
 1. In order for an object to be hard-deleted, it must be deleted from all branches.
    You should remove stale branches to prevent them from retaining old objects.
    For example, consider a branch that has been merged to `main` and has become stale.
    An object which is later deleted from `main` will always be present in the stale branch, preventing it from being hard-deleted.
    
-1. lakeFS will never delete objects outside your repository's storage namespace.
+1. lakeFS will never delete objects outside of your repository's storage namespace.
    In particular, objects that were imported using `lakefs import` or `lakectl ingest` will not be affected by GC jobs.
    
 1. In cases where deleted objects are brought back to life while a GC job is running, said objects may or may not be
