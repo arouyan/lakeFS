@@ -40,7 +40,7 @@ Consider the table `my_table` which was created with the location `s3://example/
 
 Assume we created a new branch called `DEV` with `main` as the source branch.
 The data from `s3://example/main/path/to/table` is now accessible in `s3://example/DEV/path/to/table`.
-The metadata is not managed in lakeFS, meaning we don't have any table pointing to `s3://example/DEV/path/to/table`.
+The metadata is not managed in lakeFS, which means that we don't have any table pointing to `s3://example/DEV/path/to/table`.
 
 To address this, lakeFS introduces `lakectl metastore` commands. The case above could be handled using the copy command: it can create a copy of `my_table` with data located in `s3://example/DEV/path/to/table`. Note that this is a fast, metadata-only operation.
 
@@ -79,7 +79,7 @@ metastore:
 
 ## Suggested Model
 
-For simplicity, we recommend creating a schema for each branch, this way you can use the same table name across different schemas.
+For simplicity, we recommend creating a schema for each branch. That way, you can use the same table name across different schemas.
 
 For example:
 after creating branch `example_branch` also create a schema named `example_branch`.
@@ -102,7 +102,7 @@ create-symlink works only on Glue.
 ### Copy
 
 The `copy` command creates a copy of a table pointing to the defined branch.
-In case the destination table already exists, the command will only merge the changes.
+In the case that the destination table already exists, the command will only merge the changes.
 
 Example:
 
