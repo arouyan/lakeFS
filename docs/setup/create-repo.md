@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Create a Repository
-description: This section outlines how to setup your environment once lakeFS is configured and running
+description: This section outlines how to setup your environment once lakeFS is configured and running.
 parent: Setup lakeFS
 nav_order: 10
 has_children: false
@@ -20,14 +20,14 @@ When you first open the lakeFS UI, you will be asked to create an initial admin 
 
 1. In your browser, open the address of your lakeFS server.
    Depending on how you deployed lakeFS, this can be a custom address pointing at your server (e.g. https://lakefs.example.com),
-   the address of a load balancer, or something else. You should see the following page, prompting you to set up an admin user.
+   the address of a load balancer, or something else. You should see the following page prompting you to set up an admin user.
 
    ![Setup]({{ site.baseurl }}/assets/img/setup.png)
 
    Note: If you already have lakeFS credentials, log in and skip to [creating the repository](#create-the-repository).
    {: .note .pb-3 }
 
-1. Follow the steps to create an initial administrator user. Save the credentials you've received somewhere safe, you won't be able to see them again!
+1. Follow the steps to create an initial administrator user. Save the credentials you have received somewhere safe, you won't be able to see them again!
 
    ![Setup]({{ site.baseurl }}/assets/img/setup.png)
 
@@ -54,7 +54,7 @@ When you first open the lakeFS UI, you will be asked to create an initial admin 
 
 # Next steps
 
-You just created your first lakeFS repository!
+You have just created your first lakeFS repository!
 
 * You may now want to [import data](import.md) into your repository.
 * Check out how lakeFS [easily integrates with your other tools](../integrations/index.md).
