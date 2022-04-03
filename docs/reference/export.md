@@ -12,13 +12,13 @@ has_children: false
 The export operation copies all data from a given lakeFS commit to
 a designated object store location.
 
-For instance, the contents `lakefs://example/main` might be exported on
-`s3://company-bucket/example/latest`.  Clients entirely unaware of lakeFS could use that
-base URL to access latest files on `main`.  Clients aware of lakeFS can continue to use
+For instance, the contents `lakefs://example/main` may be exported on
+`s3://company-bucket/example/latest`. Clients entirely unaware of lakeFS could use that
+base URL to access latest files on `main`. Clients aware of lakeFS can continue to use
 the lakeFS S3 endpoint to access repository files on `s3://example/main`, as well as
 other versions and uncommitted versions.
 
-Possible use-cases:
+Possible use cases:
 1. External consumers of data don't have access to your lakeFS installation.
 1. Some data pipelines in the organization are not fully migrated to lakeFS.
 1. You want to experiment with lakeFS as a side-by-side installation first.
@@ -29,6 +29,7 @@ Possible use-cases:
 ## Exporting Data With Spark 
 
 ### Using spark-submit
+
 You can use the export main in 3 different modes:
 
 1. Export all objects from branch `example-branch` on `example-repo` repository to s3 location `s3://example-bucket/prefix/`:
@@ -67,6 +68,7 @@ Otherwise, add `spark.hadoop.fs.s3a.access.key` and `spark.hadoop.fs.s3a.secret.
 {: .note}
 
 ### Using custom code (notebook/spark)
+
 Set up lakeFS Spark metadata client with the endpoint and credentials as instructed in the previous [page](./spark-client.md).
 
 The client exposes the `Exporter` object with 3 export options:
@@ -100,7 +102,8 @@ If all files were exported successfully the file path will be of form: `EXPORT_<
 For failures: the form will be`EXPORT_<commitID>_<ISO-8601-time-UTC>_FAILURE`, and the file will include a log of the failed files operations.
 
 ## Export Rounds (Spark success files)
-Some files should be exported before others, e.g. a Spark `_SUCCESS` file exported before other files under
+
+Some files should be exported before others, e.g., a Spark `_SUCCESS` file exported before other files under
 the same prefix might send the wrong indication.
 
 The export operation may contain several *rounds* within the same export.
@@ -155,9 +158,9 @@ you can alternatively export just the difference between `main` branch and the c
 
 ## Exporting Data With Docker
 
-This option is recommended if you don't have Spark at your tool-set.
-It does not support distribution across machines, therefore may have a lower performance. 
-Using this method, you can export data from lakeFS to S3 using 3 export options (in a similar way to the Spark export):
+This option is recommended if you don't have Spark at your toolset.
+It doesn't support distribution across machines, therefore may have a lower performance. 
+Using this method, you can export data from lakeFS to S3 using three export options (in a similar way to the Spark export):
 
 1. Export all objects from a branch `example-branch` on `example-repo` repository to s3 location `s3://destination-bucket/prefix/`:
 
