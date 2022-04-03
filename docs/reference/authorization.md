@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Authentication & Authorization
-description: This section covers authorization (using AWS IAM) and Authentication of your lakeFS server.
+description: This section covers the authorization (using AWS IAM) and authentication of your lakeFS server.
 parent: Reference
 nav_order: 60
 has_children: false
@@ -16,24 +16,24 @@ has_children: false
 
 ### User Authentication
 
-lakeFS authenticates users from a built-in authentication database, or
+lakeFS authenticates users from a built-in authentication database or
 optionally from a configured LDAP server.
 
 #### Built-in database
 
-The built-in authentication database is always present and active.  Use the
-Web UI at Administration / Users to create users.  Users have an access key
-`AKIA...` and an associated secret access key.  These credentials are valid
+The built-in authentication database is always present and active. Use the
+Web UI at Administration / Users to create users. Users have an access key
+`AKIA...` and an associated secret access key. These credentials are valid
 to log into the Web UI, or to authenticate programmatic requests to the API
 Server, or for S3 Gateway Authentication.
 
 #### LDAP server
 
-Configure lakeFS to authenticate users on an LDAP server.  Once configured,
-users can additionally log into lakeFS using their credentials LDAP.  These
+Configure lakeFS to authenticate users on an LDAP server. Once configured,
+users can additionally log into lakeFS using their credentials LDAP. These
 users may then generate an access key and a secret access key on the Web UI
-at Administration / My Credentials.  lakeFS generates an internal user once
-logged in via the LDAP server.  Adding this internal user to a group allows
+at Administration / My Credentials. lakeFS generates an internal user once
+logged in via the LDAP server. Adding this internal user to a group allows
 assigning them a different policy.
 
 Configure the LDAP server using these [fields in
@@ -67,11 +67,11 @@ LDAP users log in using the following flow:
    a single user whose `username_attribute` was specified by the user.  Get
    their DN.
 
-   In our example this might be `uid=joebloggs,ou=Users,dc=treeverse,dc=io`
+   In our example, this might be `uid=joebloggs,ou=Users,dc=treeverse,dc=io`
    (this entry must have `objectClass: person` because of `user_filter`).
 1. Attempt to bind the received DN on the LDAP server using the password.
 1. On success, the user is authenticated!
-1. Create a new internal user with that DN if needed.  When creating a user
+1. Create a new internal user with that DN if needed. When creating a user
    add them to the internal group named `default_user_group`.
 
 ### API Server Authentication
@@ -121,26 +121,26 @@ Controlling access is done by attaching **Policies**, either directly to **Users
 
 ### Authorization process
 
-Every action in the system, be it an API request, UI interaction, S3 Gateway call or CLI command, requires a set of actions to be allowed for one or more resources.
+Every action in the system - be it an API request, UI interaction, S3 Gateway call or CLI command - requires a set of actions to be allowed for one or more resources.
 
 When a user makes a request to perform that action, the following process takes place:
 
 1. Authentication - The credentials passed in the request are evaluated, and the user's identity is extracted.
 1. Action permission resolution - lakeFS would then calculate the set of allowed actions and resources that this request requires.
-1. Effective policy resolution - the user's policies (either attached directly or through group memberships) are calculated
-1. Policy/Permission evaluation - lakeFS will compare the given user policies with the request actions and determine whether or not the request is allowed to continue
+1. Effective policy resolution - the user's policies (either attached directly or through group memberships) are calculated.
+1. Policy/Permission evaluation - lakeFS will compare the given user policies with the request actions and determine whether or not the request is allowed to continue.
 
 ### Policy Precedence
 
 Each policy attached to a user or a group has an `Effect` - either `allow` or `deny`.
-During evaluation of a request, `deny` would take precedence over any other `allow` policy.
+During the evaluation of a request, `deny` would take precedence over any other `allow` policy.
 
 This helps us compose policies together. For example, we could attach a very permissive policy to a user and use `deny` rules to then selectively restrict what that user can do.
 
 
 ### Resource naming - ARNs
 
-lakeFS uses [ARN identifier](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns){:target="_blank"} - very similar in structure to those used by AWS.
+lakeFS uses the [ARN identifier](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns){:target="_blank"} - very similar in structure to those used by AWS.
 The resource segment of the ARN supports wildcards: use `*` to match 0 or more characters, or `?` to match exactly one character.
 
 Additionally, the current user's ID is interpolated in runtime into the ARN using the `${user}` placeholder.
@@ -157,15 +157,13 @@ arn:lakefs:fs:::repository/*
 arn:lakefs:fs:::*
 ```
 
-this allows us to create fine-grained policies affecting only a specific subset of resources.
+This allows us to create fine-grained policies affecting only a specific subset of resources.
 
-See below for a full reference of ARNs and actions
-
-
+See below for a full reference of ARNs and actions.
 
 ### Actions and Permissions
 
-For the full list of actions and their required permissions see the following table:
+For the full list of actions and their required permissions, see the following table:
 
 |Action name                       |required action                            |Resource                                                                |API endpoint                                                                       |S3 gateway operation                                                 |
 |----------------------------------|-------------------------------------------|------------------------------------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------|
@@ -222,7 +220,7 @@ For the full list of actions and their required permissions see the following ta
 |Set Garbage Collection Rules      |`retention:SetGarbageCollectionRules`      |`arn:lakefs:fs:::repository/{repositoryId}`                             |POST /repositories/{repositoryId}/gc/rules                                         |-                                                                    |
 |Prepare Garbage Collection Commits|`retention:PrepareGarbageCollectionCommits`|`arn:lakefs:fs:::repository/{repositoryId}`                             |POST /repositories/{repositoryId}/gc/prepare_commits                               |-                                                                    |
 
-Some APIs may require more than one action.  For instance, in order to
+Some APIs may require more than one action. For instance, in order to
 create a repository (`POST /repositories`) you need permission to
 `fs:CreateRepository` for the _name_ of the repository and also
 `fs:AttachStorageNamespace` for the _storage namespace_ used.
