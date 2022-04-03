@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Spark Client
-description: lakeFS spark client performs operations on lakeFS committed metadata stored in the object store. 
+description: The lakeFS Spark client performs operations on lakeFS committed metadata stored in the object store. 
 parent: Reference
 nav_exclude: true
 has_children: false
@@ -10,7 +10,7 @@ has_children: false
 
 # lakeFS Spark Client
 
-Utilize the power of Spark to interact with the metadata on lakeFS. Possible use-cases include:
+Use the power of Spark to interact with the metadata on lakeFS. Possible use cases include:
 
 * Create a DataFrame for listing the objects in a specific commit or branch.
 * Compute changes between two commits.
