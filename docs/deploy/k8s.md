@@ -2,7 +2,7 @@
 layout: default
 title: With Kubernetes
 parent: Deploy lakeFS
-description: This guide will help you deploy your production lakeFS environment on Kubernetes using a helm chart
+description: This guide shows how to deploy your production lakeFS environment on Kubernetes using a Helm chart.
 nav_order: 40
 ---
 
@@ -14,7 +14,7 @@ nav_order: 40
 {: .no_toc }
 
 lakeFS requires a PostgreSQL database to synchronize actions on your repositories.
-This section assumes you already have a PostgreSQL database accessible from your Kubernetes cluster.
+This section assumes that you already have a PostgreSQL database accessible from your Kubernetes cluster.
 Instructions for creating the database can be found on the deployment instructions for [AWS](./aws.md#creating-the-database-on-aws-rds), [Azure](./azure.md#creating-the-database-on-azure-database) and [GCP](./gcp.md#creating-the-database-on-gcp-sql).
 
 {% include toc.html %}
@@ -81,7 +81,7 @@ lakefsConfig: |
       type: azure
       azure:
         auth_method: msi # msi for active directory, access-key for access key 
-     #  In case you chose to authenticate via access key unmark the following rows and insert the values from the previous step 
+     #  In case you chose to authenticate via access key, unmark the following rows and insert the values from the previous step 
      #  storage_account: [your storage account]
      #  storage_access_key: [your access key]
 ```
@@ -110,7 +110,7 @@ If you can't provide such access, lakeFS can be configured to use an AWS key-pai
 
 ## Load balancing
 You should have a load balancer direct requests to the lakeFS server.
-Options to do so include a Kubernetes Service of type `LoadBalancer`, or a Kubernetes Ingress.
+Options to do so include a Kubernetes Service of type `LoadBalancer` or a Kubernetes Ingress.
 By default, lakeFS operates on port 8000, and exposes a `/_health` endpoint which you can use for health checks.
 
 
