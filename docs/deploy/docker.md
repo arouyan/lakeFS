@@ -2,7 +2,7 @@
 layout: default
 title: With Docker
 parent: Deploy lakeFS
-description: This guide will help you deploy your production lakeFS environment with Docker.
+description: This guide shows how to deploy your production lakeFS environment on Docker.
 nav_order: 50
 ---
 # Deploy lakeFS on Docker
