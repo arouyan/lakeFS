@@ -2,7 +2,7 @@
 layout: default
 title: On AWS
 parent: Deploy lakeFS
-description: 
+description: This page shows how to deploy lakeFS on AWS.
 nav_order: 10
 redirect_from:
    - ../deploying-aws/index.html
@@ -13,7 +13,7 @@ redirect_from:
 
 # Deploy lakeFS on AWS
 {: .no_toc }
-Expected deployment time: 25min
+Expected deployment time: 25 minutes
 
 {% include toc.html %}
 
@@ -57,7 +57,7 @@ If you already have a database, take note of the connection string and skip to t
    ```bash
    lakefs --config config.yaml run
    ```
-   **Note:** it is preferable to run the binary as a service using systemd or your operating system's facilities.
+   **Note:** It is preferable to run the binary as a service using systemd or your operating system's facilities.
 
 ### On ECS
 To support container-based environments like AWS ECS, lakeFS can be configured using environment variables. Here is a `docker run` 
@@ -87,7 +87,7 @@ By default, lakeFS operates on port 8000, and exposes a `/_health` endpoint whic
 
 1. Your security groups should allow the load balancer to access the lakeFS server.
 1. Create a target group with a listener for port 8000.
-1. Setup TLS termination using the domain names you wish to use (e.g. `lakefs.example.com` and potentially `s3.lakefs.example.com`, `*.s3.lakefs.example.com` if using [virtual-host addressing](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)).
+1. Set up TLS termination using the domain names you wish to use (e.g., `lakefs.example.com` and potentially `s3.lakefs.example.com`, `*.s3.lakefs.example.com` if using [virtual-host addressing](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)).
 1. Configure the health-check to use the exposed `/_health` URL
 
 ## Next Steps
