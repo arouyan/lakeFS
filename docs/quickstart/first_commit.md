@@ -11,10 +11,10 @@ redirect_from: quickstart/lakefs_cli.html
 
 ## Install lakectl
 
-lakeFS comes with its own native CLI client, `lakectl`. 
-Most importantly, you can use it to perform Git-like operations like committing, reverting and merging.
+lakeFS comes with its  native CLI client, `lakectl`. 
+Most importantly, you can use it to perform Git-like operations like committing, reverting, and merging.
 
-Follow the below tutorial video to get started with the CLI, or follow the instructions on this page.
+Follow the video tutorial below to get started with the CLI or follow the instructions on this page.
 
 <iframe width="420" height="315" src="https://www.youtube.com/embed/8nO7RT411nA"></iframe>
 
@@ -22,7 +22,7 @@ Here's how to get started with the CLI:
 
   1. Download the CLI binary:
 
-     The CLI binary can be downloaded from the official [lakeFS releases](https://github.com/treeverse/lakeFS/releases) published on GitHub under "Assets". Unless you need a specific previous version of the CLI, it is recommended to download the most recently released version.
+     The CLI binary can be downloaded from the official [lakeFS releases](https://github.com/treeverse/lakeFS/releases) published on GitHub under "Assets". Unless you need a specific previous version of the CLI, it's recommended to download the most recently released version.
 
       ![Release Assets]({{ site.baseurl }}/assets/img/lakefs-release-asset.png)
 
