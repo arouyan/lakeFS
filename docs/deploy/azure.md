@@ -2,13 +2,13 @@
 layout: default
 title: On Azure
 parent: Deploy lakeFS
-description:  This guide will help you deploy your production lakeFS environment on Azure 
+description:  This guide shows how to deploy your production lakeFS environment on Microsoft Azure.
 nav_order: 20
 ---
 
 # Deploy lakeFS on Azure
 {: .no_toc }
-Expected deployment time: 25min
+Expected deployment time: 25 minutes
 
 {% include toc.html %}
 
@@ -53,8 +53,8 @@ If you already have a database, take note of the connection string and skip to t
    ```bash
    lakefs --config config.yaml run
    ```
-   **Note:** it is preferable to run the binary as a service using systemd or your operating system's facilities.
-1. To support Azure AD authentication go to `Identity` tab and switch `Status` toggle to on, then add the `Storage Blob Data Contributor' role on the container you created.
+   **Note:** It is preferable to run the binary as a service using systemd or your operating system's facilities.
+1. To support Azure AD authentication, go to `Identity` tab and switch `Status` toggle to on, then add the `Storage Blob Data Contributor' role on the container you created.
 
 ### On Azure Container instances
 To support container-based environments like Azure Container Instances, lakeFS can be configured using environment variables. Here is a `docker run`
