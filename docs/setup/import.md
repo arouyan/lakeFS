@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Import data into lakeFS 
-description: In order to import existing data to lakeFS, you may choose to copy it using S3 CLI or using tools like Apache DistCp.
+description: To import existing data to lakeFS, you can copy it using S3 CLI or use tools like Apache DistCp.
 parent: Setup lakeFS
 nav_order: 20
 has_children: false
@@ -17,21 +17,21 @@ This page describes importing from versions >= v0.24.0. For earlier versions, se
 
 ## Use external tools
 
-In order to import existing data to lakeFS, you may choose to copy it using [S3 CLI](../integrations/aws_cli.md#copy-from-a-local-path-to-lakefs) 
-or using tools like [Apache DistCp](../integrations/distcp.md#from-s3-to-lakefs). This is the most straightforward way, and we recommend it if it’s applicable for you.
+To import existing data to lakeFS, you can choose to copy it using [S3 CLI](../integrations/aws_cli.md#copy-from-a-local-path-to-lakefs) 
+or using tools like [Apache DistCp](../integrations/distcp.md#from-s3-to-lakefs). This is the most straightforward way and we recommend it if it’s applicable to you.
 
 ## Zero-copy import
 
 For cases where copying data is not feasible, the `lakectl` command supports ingesting objects from a source object store without actually copying the data itself.
 This is done by listing the source bucket (and optional prefix), and creating pointers to the returned objects in lakeFS.
 
-By doing this, it's possible to take even large sets of objects, and have them appear as objects in a lakeFS branch, as if they were written directly to it.
+By doing this, it's possible to take even large sets of objects and have them appear as objects in a lakeFS branch, as if they were written directly to it.
 
 For this to work, make sure that:
 
-1. The user calling `lakectl ingest` must have permissions to list the objects at the source object store
+1. The user calling `lakectl ingest` haspermissions to list the objects at the source object store,
 2. The lakeFS installation has read permissions to the objects being ingested.
-3. The source path is **not** a storage namespace used by lakeFS. e.g. if `lakefs://my-repo` created with storage namespace `s3://my-bucket`, then `s3://my-bucket/*` cannot be an ingestion source.   
+3. The source path is **not** a storage namespace used by lakeFS, e.g., if `lakefs://my-repo` is created with storage namespace `s3://my-bucket`, then `s3://my-bucket/*` cannot be an ingestion source.   
 
 <div class="tabs">
 <ul>
@@ -48,7 +48,7 @@ lakectl ingest \
 
 The `lakectl ingest` command will attempt to use the current user's existing credentials and will respect instance profiles,
 environment variables and credential files [in the same way that the AWS cli does](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html){: target="_blank" }
-Specify an endpoint to ingest from other S3 compatible storage solutions, e.g. add `--s3-endpoint-url https://play.min.io`.
+Specify an endpoint to ingest from other S3compatible storage solutions, e.g., add `--s3-endpoint-url https://play.min.io`.
 </div>
 <div markdown="1" id="ingest-tabs-2">
 ```shell
@@ -167,9 +167,9 @@ lakefs import --with-merge lakefs://example-repo -m s3://example-bucket/path/to/
 {: .no_toc }
 
 Once you switch to using the lakeFS S3-compatible endpoint in all places, you can stop making changes to your original bucket.
-However, if your operation still requires that you work on the original bucket,
-you can repeat using the import API with up-to-date inventories every day, until you complete the onboarding process.
-You can specify only the prefixes that require import. lakeFS will merge those prefixes with the previous imported inventory.
+However, if your operation still requires that you work on the original bucket, you can repeat using the import API with up-to-date inventories every day until you complete the onboarding process.
+
+You can specify only the prefixes that require import. lakeFS will merge those prefixes with the inventory imported previously.
 For example, a prefixes-file that contains only the prefix `new/data/`. The new commit to `import-from-inventory` branch will include all objects from the HEAD of that branch, except for objects with prefix `new/data/` that is imported from the inventory. 
 
 ### Limitations
