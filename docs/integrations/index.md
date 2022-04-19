@@ -6,3 +6,6 @@ nav_order: 35
 has_children: true
 redirect_from: ../using
 ---
+# Integrations
+
+This section provides an overview of all the lakeFS integrations.
