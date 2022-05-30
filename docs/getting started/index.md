@@ -32,6 +32,8 @@ and achieve great collaboration between team members.
 
 ## What can you do with lakeFS?
 
+You can use lakeFS across the entire lifecycle - from development, through deployment, to production. Check out our detailed use cases that show lake FS in action.
+
 [Explore lakeFS use cases](https://docs.lakefs.io/usecases/) 
 
 ## Commitment to open source
