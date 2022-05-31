@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Frequently Asked Questions
-description: Learn more about lakeFS and check out our FAQ
+title: Object model
+description: Learn more about object model in lakeFS
 nav_order: 6
 parent: Under the hood
 has_children: false
