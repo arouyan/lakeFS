@@ -6,7 +6,7 @@ nav_order: 6
 parent: Getting started
 has_children: false
 redirect_from:
-    - ../object-model.html
+    - ../faq.html
 --- 
 
 
