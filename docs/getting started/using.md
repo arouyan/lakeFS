@@ -3,6 +3,7 @@ layout: default
 title: Using lakeFS
 description: Learn where lakeFS can make a real difference in your process
 nav_order: 7
+parent: Getting started
 has_children: false
 
 --- 
