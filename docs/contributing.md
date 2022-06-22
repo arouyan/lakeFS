@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Contributing
-description: lakeFS community welcomes your contribution. To make the process as seamless as possible, we recommend you read this contribution guide.
-nav_order: 55
+title: Contributing to lakeFS
+description: The lakeFS community welcomes your contribution. To make the process as seamless as possible, we recommend you read this contribution guide.
+nav_order: 65
 has_children: false
 ---
 
@@ -104,7 +104,7 @@ A developer from our team will review your pull request, and may request some ch
 
 ## Documentation
 
-Documentation of features and changes in behaviour should be included in the pull-request.
+The documentation of features and changes in behaviour should be included in the pull-request.
 You can create separate pull requests for documentation changes only.
 Documentation site customizations should be performed in accordance with the [Just The Docs Customization](https://just-the-docs.github.io/just-the-docs/docs/customization/) guide, which is applied during the site creation process.
 

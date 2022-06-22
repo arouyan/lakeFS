@@ -2,7 +2,7 @@
 layout: default
 title: Guides
 description: Achieve more with lakeFS by reading these practical guides
-nav_order: 15
+nav_order: 42
 has_children: true
 --- 
 

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Getting started
+title: Getting Started
 description: How to get started with lakeFS? Here's an step by step guide
 nav_order: 4
 has_children: true
@@ -9,7 +9,7 @@ has_toc: true
 
 # Getting started
 
-This is the best section for all those looking to get a smooth start with lakeFS. Jump to the section that
+This is the best section for all those looking to get a smooth start with lakeFS.
 
 ## What is lakeFS?
 

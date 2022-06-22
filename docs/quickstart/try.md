@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Try without installing
+title: Try Without Installing
 description: Learn how to use lakeFS using the CLI from your browser, without installing anything
 parent: Quickstart
 nav_order: 1

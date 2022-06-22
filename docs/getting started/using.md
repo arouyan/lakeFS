@@ -2,8 +2,8 @@
 layout: default
 title: Using lakeFS
 description: Learn where lakeFS can make a real difference in your process
-nav_order: 7
-parent: Getting started
+nav_order: 1
+parent: Getting Started
 has_children: false
 
 --- 

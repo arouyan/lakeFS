@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Under the hood
+title: Under the Hood
 description: Learn more about how lakeFS works under the hood
-nav_order: 10
+nav_order: 30
 has_children: true
 ---
 
@@ -37,3 +37,4 @@ By default, lakeFS keeps all your objects forever, allowing you to travel back i
 But sometimes you may want to hard-delete your objects from the underlying storage for cost reduction or compliance. This is possible in lakeFS. 
 
 [Learn more](https://docs.lakefs.io/reference/garbage-collection.html)
+

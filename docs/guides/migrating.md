@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Migrating away from lakeFS
+title: Migrating Away from lakeFS
 description: Learn how to migrate away from lakeFS
 nav_order: 18
 parent: Guides

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Authentication and authorization
+title: Authentication and Authorization
 description: Learn how authentication and authorization work in lakeFS
 nav_order: 16
 parent: Guides

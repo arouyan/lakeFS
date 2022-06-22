@@ -29,18 +29,9 @@ To run a local lakeFS instance using [Docker Compose](https://docs.docker.com/co
 
 1. [Create your first repository](repository.md) in lakeFS.
 
-## Other methods
-
-You can try lakeFS:
-
-1. [On Kubernetes](more_quickstart_options.md#on-kubernetes-with-helm).
-1. With docker-compose [on Windows](more_quickstart_options.md#docker-on-windows).
-1. By [running the binary directly](more_quickstart_options.md#using-the-binary).
 
 ## More Quickstart Options
 {: .no_toc}
-
-{% include learn_only.html %} 
 
 {% include toc.html %}
 

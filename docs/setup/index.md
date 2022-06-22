@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Setup lakeFS
-description:
-nav_order: 15
+title: Set up lakeFS
+description: Learn how to set up lakeFS in a few easy steps.
+nav_order: 10
 has_children: true
 ---
 
