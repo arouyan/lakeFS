@@ -5,7 +5,7 @@ description: The lakeFS object model blends the object models of git and of obje
 parent: Under the Hood
 nav_order: 22
 has_children: false
-redirect_from: ../reference/object-model.html
+redirect_from: ../understand/object-model.html
 ---
 
 # Object Model

@@ -31,7 +31,7 @@ In data-intensive applications, data should be managed through its entire lifecy
 
 ## Data pipeline reproducibility
 
-Reproducibility in data pipelines is the ability to recreate an issue that occurred in the pipeline. Reproducibility allows for the controlled manufacture of an error to debug and troubleshoot it at a later point in time. Reproducing a data pipeline issue is a challenge that most data engineers face on a daily basis. Learn more about how lakeFS supports data pipeline [reproducibilit](https://docs.lakefs.io/use_cases/reproducibility.html)y.
+Reproducibility in data pipelines is the ability to repeat a process. An example of this is recreating an issue that occurred in the pipeline. Reproducibility allows for the controlled manufacture of an error to debug and troubleshoot it at a later point in time. Reproducing a data pipeline issue is a challenge that most data engineers face on a daily basis. Learn more about how lakeFS supports data pipeline [reproducibility](https://docs.lakefs.io/use_cases/reproducibility.html). Other use cases include running ad-hoc queries (useful for data science), review, and backfill.
 
 ## Data quality testing
 
@@ -71,7 +71,7 @@ Every Git repository has the main branch (unless you take explicit steps to remo
 
 ## Merge
 
-In lakeFS, once you commit both the code and data, you can review them together and then merge the new data into the main branch. A merge generates a commit on the target branch with all your changes. Committing is a fast and atomic metadata operation in lakeFS as it doesn't involve copying data.
+In lakeFS, once you commit both the code and data, you can review them together and then merge the new data into the main branch. A merge generates a commit on the target branch with all your changes. lakeFS guarantees atomic merges that are fast, given they don’t involve copying data. 
 
 ## Repository
 
@@ -79,4 +79,4 @@ A repository is a collection of objects with common history tracking. lakeFS man
 
 ## Rollback
 
-If a developer introduces a new code version to production and discovers that it has a critical bug, they can simply roll back to the previous version. In lakeFS, a rollback is an atomic action that prevents the data consumers from receiving low-quality data until the issue is resolved. Learn more about how lakeFS supports the [rollback](https://docs.lakefs.io/use_cases/rollback.html) operation.
+A rollback is an atomic operation reversing the effects of a previous commit. If a developer introduces a new code version to production and discovers that it has a critical bug, they can simply roll back to the previous version. In lakeFS, a rollback is an atomic action that prevents the data consumers from receiving low-quality data until the issue is resolved. Learn more about how lakeFS supports the [rollback](https://docs.lakefs.io/use_cases/rollback.html) operation.

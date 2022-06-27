@@ -5,6 +5,7 @@ description: Frequently Asked Questions (FAQ). Have a question about lakeFS? Fin
 parent: Getting Started
 nav_order: 60
 has_children: false
+redirect_from: ../faq.html
 ---
 
 # FAQ

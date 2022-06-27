@@ -5,7 +5,7 @@ description: lakeFS is an open source project under the Apache 2.0 license.
 parent: Getting Started
 nav_order: 2
 has_children: false
-redirect_from: ./understand/licensing.html
+redirect_from: ../commitment.html
 ---
 
 # Our commitment to open source

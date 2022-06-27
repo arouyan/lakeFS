@@ -2,7 +2,7 @@
 layout: default
 title: Deploy lakeFS
 description: This section will guide you through deploying a production-suitable lakeFS environment.
-nav_order: 10
+nav_order: 6
 has_children: true
 ---
 

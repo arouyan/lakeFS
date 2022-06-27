@@ -5,7 +5,7 @@ description: Monitor your lakeFS installation with Prometheus
 parent: Guides
 nav_order: 30
 has_children: false
-redirect_from: ../deploying-aws/monitor.md
+redirect_from: ../reference/monitor.html
 ---
 
 # Monitoring using Prometheus

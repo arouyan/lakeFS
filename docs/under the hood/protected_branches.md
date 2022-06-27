@@ -5,6 +5,8 @@ description: Branch protection rules prevent direct changes on your important br
 parent: Under the Hood
 nav_order: 4
 has_children: false
+redirect_from: ../reference/protected_branches.html
+
 ---
 
 # Branch Protection Rules

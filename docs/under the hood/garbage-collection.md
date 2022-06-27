@@ -5,6 +5,8 @@ description: Clean up unnecessary objects
 parent: Under the Hood
 nav_order: 25
 has_children: false
+redirect_from: ../reference/garbage-collection.html
+
 ---
 
 # Garbage Collection

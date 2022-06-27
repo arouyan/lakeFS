@@ -5,6 +5,8 @@ description: Use lakeFS Spark client to export lakeFS commit to the object store
 parent: Under the Hood
 nav_order: 5
 has_children: false
+redirect_from: ../reference/export.html
+
 ---
 
 # Exporting Data
