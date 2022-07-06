@@ -1,20 +1,15 @@
 ---
 layout: default
-title: Getting Started
-description: How to get started with lakeFS? Here's an step by step guide
+title: Getting started
+description: What is lakeFS and what can you do with it? Find out in this section.
 nav_order: 4
 has_children: true
 has_toc: true
 ---
 
-# Getting started
-
-This is the best section for all those looking to get a smooth start with lakeFS.
-
 ## What is lakeFS?
 
-lakeFS transofrms an object storage into a data lake repository that exposes a Git-like interface to the underlying data so that users can use the same development 
-workflows for code and data. The open-source lakeFS project supports AWS S3, Azure Blob Storage, and Google Cloud Storage (GCS) 
+lakeFS transofrms an object storage into a data lake repository that exposes a Git-like interface to the underlying data so that users can use the same development workflows for code and data. The open-source lakeFS project supports AWS S3, Azure Blob Storage, and Google Cloud Storage (GCS) 
 as its underlying storage service. It's API-compatible with S3 and integrates seamlessly with popular data frameworks 
 such as Spark, Hive, dbt, Trino, and many others.
 
@@ -34,7 +29,7 @@ and achieve great collaboration between team members.
 
 You can use lakeFS across the entire lifecycle - from development, through deployment, to production. Check out our detailed use cases that show lake FS in action.
 
-[Explore lakeFS use cases](https://docs.lakefs.io/usecases/) 
+[Explore lakeFS use cases](../using_lakeFS/index.md) 
 
 ## Commitment to open source
 
@@ -48,11 +43,11 @@ compete with well-established companies that can afford paying for technology.
 
 As a commercial organization, we intend to use an open-core model.
 
-[Learn more](https://docs.lakefs.io/commitment.html)
+[Learn more](../commitment.md)
 
 ## FAQ
 
 Take a look at our FAQ for more information about lakeFS.
 
-[Jump to the FAQ](https://docs.lakefs.io/faq.html)
+[Jump to the FAQ](../faq.html)
 
