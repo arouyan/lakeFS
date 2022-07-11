@@ -6,5 +6,5 @@ nav_order: 15
 has_children: true
 ---
 
-Once lakeFS is installed, a few simple steps are required to start working. The first step is to [create a bucket/container](./storage/index.md) in your underlying storage.
-If you already have one, you are ready to [create your first lakeFS repository](./create-repo.md).
+Once you install lakeFS, you only need a few simple steps to start working. The first one is to [create a bucket/container](./storage/index.md) in your underlying storage.
+If you already have one, you're ready to [create your first lakeFS repository](./create-repo.md).
