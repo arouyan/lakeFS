@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "S3 Virtual-host addressing (advanced)"
-description: Configure the lakeFS S3 API to use virtual host addressing 
+description: Configure the lakeFS S3 API to use virtual host addressing.
 parent: Setup lakeFS
 has_children: false
 ---
@@ -23,13 +23,13 @@ GET http://foo.example.com/some/location
 In this case, there's no way for lakeFS to determine whether this is a virtual-host request where the endpoint url is `example.com`, the bucket name is `foo` and the path is `/some/location`,
 or a path-based request where the endpoint is `foo.example.com`, the bucket name is `some` and the path is `location`.
 
-This requires an extra step: Defining an explicit set of DNS record for lakeFS S3 gateway.
+This requires an extra step: defining an explicit set of DNS record for lakeFS S3 gateway.
 
 ## Adding an explicit S3 domain name to the S3 Gateway configuration
 
-The first step would be to tell the lakeFS installation which hostnames are used for the S3 Gateway. This should be a different DNS record from the one used for e.g. the UI or API.
+The first step would be to tell the lakeFS Installation which hostnames are used for the S3 Gateway. This should be a different DNS record from the one used for the UI or API, among others.
 
-Typically, if the lakeFS installation is served under `lakefs.example.com`, a good choice would be `s3.lakefs.example.com`.
+Typically, if the lakeFS Installation is served under `lakefs.example.com`, a good choice would be `s3.lakefs.example.com`.
 
 This could be done using either an environment variable:
 
@@ -57,14 +57,14 @@ For more information on how to configure lakeFS, check out the [configuration re
 
 ## Setting up the appropriate DNS records
 
-Once our lakeFS installation is configured with an explicit S3 gateway endpoint address, we need to define 2 DNS records and have them point at our lakeFS installation.
-This requires 2 CNAME records:
+Once your lakeFS Installation is configured with an explicit S3 gateway endpoint address, you need to define two DNS records and have them point at your lakeFS Installation.
+This requires two CNAME records:
 
-1. `s3.lakefs.example.com` - CNAME to `lakefs.example.com`. This would be used as the S3 endpoint when configuring clients and will serve as our bare domain.
+1. `s3.lakefs.example.com` - CNAME to `lakefs.example.com`. This will be used as the S3 endpoint when configuring clients and  serve as your bare domain.
 1. `*.s3.lakefs.example.com` - Also a CNAME to `lakefs.example.com`. This will resolve virtual-host requests such as `example-repo.s3.lakefs.example.com` that lakeFS would now know how to parse.
 
 
 <div class="note">
    <p>For more information on how to configure these, see the official documentation of your DNS provider.</p>
-   <p>On AWS, This could also be done [using ALIAS records](https://aws.amazon.com/premiumsupport/knowledge-center/route-53-create-alias-records/) for a load balancer.</p> 
+   <p>On AWS, this could also be done [using ALIAS records](https://aws.amazon.com/premiumsupport/knowledge-center/route-53-create-alias-records/) for a load balancer.</p> 
 </div>
