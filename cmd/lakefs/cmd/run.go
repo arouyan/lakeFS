@@ -131,7 +131,7 @@ var runCmd = &cobra.Command{
 
 			// Check if migration required only on postgres
 			migrationRequired := false
-			if dbParams.Type == kvpg.DriverName {
+			if dbParams.Type == kvpg.DriverName && len(dbParams.ConnectionString) > 0 {
 				dbPool = db.BuildDatabaseConnection(ctx, dbParams)
 				defer dbPool.Close()
 				_, _, err := db.MigrateVersion(ctx, dbPool, dbParams)
@@ -518,11 +518,10 @@ func printWelcome(w io.Writer) {
 	_, _ = fmt.Fprintf(w, "Version %s\n\n", version.Version)
 }
 
-var localWarningBanner = `
+const localWarningBanner = `
 WARNING!
 
-Using the "%s" block adapter.  This is suitable only for testing, but not
-for production.
+Using the "%s" block adapter.  This is suitable only for testing, but not for production.
 `
 
 func printLocalWarning(w io.Writer, adapter string) {

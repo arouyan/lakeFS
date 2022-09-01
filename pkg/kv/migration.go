@@ -30,33 +30,33 @@ func (d *DatabaseMigrator) Migrate(ctx context.Context) error {
 		return fmt.Errorf("failed to open KV store: %w", err)
 	}
 	defer kvStore.Close()
-	err = SetDBSchemaVersion(ctx, kvStore, InitialMigrateVersion)
-	if err != nil {
+	version, err := GetDBSchemaVersion(ctx, kvStore)
+	if err != nil && !errors.Is(err, ErrNotFound) {
 		return fmt.Errorf("failed to setup KV store: %w", err)
+	}
+	if version < InitialMigrateVersion { // 0 In case of ErrNotFound
+		return SetDBSchemaVersion(ctx, kvStore, InitialMigrateVersion)
 	}
 	return nil
 }
 
 func ValidateSchemaVersion(ctx context.Context, store Store, migrationRequired bool) error {
 	kvVersion, err := GetDBSchemaVersion(ctx, store)
-	switch {
-	case errors.Is(err, ErrNotFound):
-		if migrationRequired {
-			return fmt.Errorf("missing KV schema version: %w", err)
-		} else {
-			logging.Default().Debug("No KV Schema version, setup required")
-			return nil
-		}
-
-	case err != nil:
-		return fmt.Errorf("get KV schema version: %w", err)
-
-	case kvVersion < InitialMigrateVersion:
-		if migrationRequired {
-			return fmt.Errorf("migration required, for more information see https://docs.lakefs.io/deploying-aws/upgrade.html: %w", err)
-		} else {
-			return fmt.Errorf("missing KV schema version (%d): %w", kvVersion, err)
-		}
+	if errors.Is(err, ErrNotFound) && !migrationRequired {
+		logging.Default().Info("No KV Schema version, setup required")
+		return nil
 	}
+	if err != nil {
+		return fmt.Errorf("get KV schema version: %w", err)
+	}
+
+	if kvVersion < InitialMigrateVersion {
+		if migrationRequired {
+			return fmt.Errorf("migration to KV required, for more information see https://docs.lakefs.io/reference/upgrade.html#lakefs-0800-or-greater-kv-migration : %w", err)
+		}
+		return fmt.Errorf("(scehma version %d): %w", kvVersion, ErrInvalidSchemaVersion)
+	}
+
+	logging.Default().WithField("version", kvVersion).Info("KV valid")
 	return nil
 }

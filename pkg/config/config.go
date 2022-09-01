@@ -74,9 +74,8 @@ const (
 	DefaultLakefsEmailBaseURL      = "http://localhost:8000"
 
 	DefaultDynamoDBTableName = "kvstore"
-	// TODO (niro): Which values to use for DynamoDB tables?
-	DefaultDynamoDBReadCapacityUnits  = 1000
-	DefaultDynamoDBWriteCapacityUnits = 1000
+
+	DefaultUIEnabled = true
 )
 
 var (
@@ -184,9 +183,9 @@ const (
 	EmailBurstKey              = "email.burst"
 	LakefsEmailBaseURLKey      = "email.lakefs_base_url"
 
-	DynamoDBTableNameKey          = "database.dynamodb.table_name"
-	DynamoDBReadCapacityUnitsKey  = "database.dynamodb.read_capacity_units"
-	DynamoDBWriteCapacityUnitsKey = "database.dynamodb.write_capacity_units"
+	DynamoDBTableNameKey = "database.dynamodb.table_name"
+
+	UIEnabledKey = "ui.enabled"
 )
 
 func setDefaults() {
@@ -247,8 +246,8 @@ func setDefaults() {
 	viper.SetDefault(LakefsEmailBaseURLKey, DefaultLakefsEmailBaseURL)
 
 	viper.SetDefault(DynamoDBTableNameKey, DefaultDynamoDBTableName)
-	viper.SetDefault(DynamoDBReadCapacityUnitsKey, DefaultDynamoDBReadCapacityUnits)
-	viper.SetDefault(DynamoDBWriteCapacityUnitsKey, DefaultDynamoDBWriteCapacityUnits)
+
+	viper.SetDefault(UIEnabledKey, DefaultUIEnabled)
 }
 
 func reverse(s string) string {
@@ -304,16 +303,16 @@ func (c *Config) GetKVParams() kvparams.KV {
 	p := kvparams.KV{
 		Type: c.values.Database.Type,
 	}
-	switch {
-	case c.values.Database.Postgres != nil:
+	if c.values.Database.Postgres != nil {
 		p.Postgres = &kvparams.Postgres{
 			ConnectionString:      c.values.Database.Postgres.ConnectionString.SecureValue(),
 			MaxIdleConnections:    c.values.Database.Postgres.MaxIdleConnections,
 			MaxOpenConnections:    c.values.Database.Postgres.MaxOpenConnections,
 			ConnectionMaxLifetime: c.values.Database.Postgres.ConnectionMaxLifetime,
 		}
+	}
 
-	case c.values.Database.DynamoDB != nil:
+	if c.values.Database.DynamoDB != nil {
 		p.DynamoDB = &kvparams.DynamoDB{
 			TableName:          c.values.Database.DynamoDB.TableName,
 			ReadCapacityUnits:  c.values.Database.DynamoDB.ReadCapacityUnits,
@@ -586,4 +585,8 @@ func (c *Config) GetAuthOIDCConfiguration() OIDC {
 
 func (c *Config) GetAuthLogoutRedirectURL() string {
 	return c.values.Auth.LogoutRedirectURL
+}
+
+func (c *Config) GetUIEnabled() bool {
+	return c.values.UI.Enabled
 }

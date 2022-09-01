@@ -32,11 +32,15 @@ var setupCmd = &cobra.Command{
 		ctx := cmd.Context()
 		dbParams := cfg.GetDatabaseParams()
 
+		if len(dbParams.Type) > 0 && len(dbParams.ConnectionString) > 0 { // Conflicting configuration
+			fmt.Printf("Conflicting database parameters, connection_string should be defined for the specific driver. Do you need to go through migration?\n")
+			os.Exit(1)
+		}
 		var (
 			dbPool   db.Database
 			kvParams params.KV
-			kvStore  kv.Store
 			migrator db.Migrator
+			err      error
 		)
 		if dbParams.KVEnabled {
 			kvParams = cfg.GetKVParams()
@@ -48,7 +52,7 @@ var setupCmd = &cobra.Command{
 			migrator = db.NewDatabaseMigrator(dbParams)
 		}
 
-		err := migrator.Migrate(ctx)
+		err = migrator.Migrate(ctx)
 		if err != nil {
 			fmt.Printf("Failed to setup DB: %s\n", err)
 			os.Exit(1)
@@ -76,6 +80,12 @@ var setupCmd = &cobra.Command{
 		)
 		authLogger := logging.Default().WithField("service", "auth_service")
 		if dbParams.KVEnabled {
+			kvStore, err := kv.Open(ctx, kvParams)
+			if err != nil {
+				fmt.Printf("Failed to connect to DB: %s", err)
+				os.Exit(1)
+			}
+			defer kvStore.Close()
 			storeMessage := &kv.StoreMessage{Store: kvStore}
 			authService = auth.NewKVAuthService(storeMessage, crypt.NewSecretStore(cfg.GetAuthEncryptionSecret()), nil, cfg.GetAuthCacheConfig(), authLogger)
 			metadataManager = auth.NewKVMetadataManager(version.Version, cfg.GetFixedInstallationID(), cfg.GetDatabaseParams().Type, kvStore)

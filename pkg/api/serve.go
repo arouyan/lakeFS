@@ -3,7 +3,6 @@ package api
 //go:generate oapi-codegen -package api -generate "types,client,chi-server,spec" -templates tmpl -o lakefs.gen.go ../../api/swagger.yml
 
 import (
-	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
@@ -39,10 +38,6 @@ const (
 
 	extensionValidationExcludeBody = "x-validation-exclude-body"
 )
-
-type responseError struct {
-	Message string `json:"message"`
-}
 
 func Serve(
 	cfg *config.Config,
@@ -116,7 +111,22 @@ func Serve(
 		r.Mount("/oidc/login", NewOIDCLoginPageHandler(oidcConfig, sessionStore, oauthConfig, logger))
 	}
 	r.Mount("/logout", NewLogoutHandler(sessionStore, logger, cfg.GetAuthLogoutRedirectURL()))
-	r.Mount("/", NewUIHandler(gatewayDomains, snippets))
+
+	// Configuration flag to control if the embedded UI is served
+	// or not and assign the correct handler for each case.
+	var rootHandler http.Handler
+	if cfg.GetUIEnabled() {
+		// Handler which serves the embedded UI
+		// as well as handles erroneous S3 gateway requests
+		// and returns a compatible response
+		rootHandler = NewUIHandler(gatewayDomains, snippets)
+	} else {
+		// Handler which only handles erroneous S3 gateway requests
+		// and returns a compatible response
+		rootHandler = NewS3GatewayEndpointErrorHandler(gatewayDomains)
+	}
+	r.Mount("/", rootHandler)
+
 	return r
 }
 
@@ -145,13 +155,21 @@ func OapiRequestValidatorWithOptions(swagger *openapi3.Swagger, options *openapi
 	}
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// validate request
-			statusCode, err := validateRequest(r, router, options)
+			// find route
+			route, m, err := router.FindRoute(r)
 			if err != nil {
-				w.Header().Set("Content-Type", "application/json")
-				w.Header().Set("X-Content-Type-Options", "nosniff")
-				w.WriteHeader(statusCode)
-				_ = json.NewEncoder(w).Encode(responseError{Message: err.Error()})
+				// We failed to find a matching route for the request.
+				writeError(w, http.StatusBadRequest, err.Error())
+				return
+			}
+
+			// include operation id from route in the context for logging
+			r = r.WithContext(logging.AddFields(r.Context(), logging.Fields{"operation_id": route.Operation.OperationID}))
+
+			// validate request
+			statusCode, err := validateRequest(r, route, m, options)
+			if err != nil {
+				writeError(w, statusCode, err.Error())
 				return
 			}
 			// serve
@@ -160,13 +178,7 @@ func OapiRequestValidatorWithOptions(swagger *openapi3.Swagger, options *openapi
 	}
 }
 
-func validateRequest(r *http.Request, router routers.Router, options *openapi3filter.Options) (int, error) {
-	// Find route
-	route, pathParams, err := router.FindRoute(r)
-	if err != nil {
-		return http.StatusBadRequest, err // We failed to find a matching route for the request.
-	}
-
+func validateRequest(r *http.Request, route *routers.Route, pathParams map[string]string, options *openapi3filter.Options) (int, error) {
 	// Extension - validation exclude body
 	if _, ok := route.Operation.Extensions[extensionValidationExcludeBody]; ok {
 		o := *options
